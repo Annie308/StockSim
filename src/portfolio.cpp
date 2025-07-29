@@ -23,7 +23,7 @@ void init_file(){
     std::ifstream infile("portfolio.csv");
     if (!infile.is_open() || infile.peek() == std::ifstream::traits_type::eof()){
         std::ofstream outfile("portfolio.csv");
-        outfile <<"Nr,Date,Transaction Type,Nr of Shares,Ticker,Buying Price Per Share,Selling Price Per Share,Current Price Per Share,Current Value,Capital Gain,Percent Gain\n";
+        outfile <<"Nr,Date,Transaction Type,Shares,Ticker,Buying Price,Selling Price,Current Price,Current Value,Cap. Gain,Per. Gain\n";
         outfile.close();
     }
     
@@ -63,11 +63,11 @@ void update_stock(){
         purchase.percent_gain = (sell_price/buy_price) -1;       //updates profit/loss
         purchase.capital_gain = (sell_price-buy_price)*purchase.shares;
         purchase.current_value = sell_price*purchase.shares;
-        cout <<purchase.nr<< " " << purchase.date <<" " <<purchase.transaction_type << " " << purchase.shares << " "<< purchase.ticker << " "<< purchase.buying_price << " "<< purchase.selling_price<< " "<<" "<<purchase.current_price <<" " <<purchase.percent_gain<<endl;
     }
 }
 
 void add_to_portfolio(){
+    cout <<"updating..."<<endl;
     std::ofstream file("portfolio.csv", ios::app);
 
     if (!file.is_open()){
@@ -93,11 +93,18 @@ void add_to_portfolio(){
 }
 
 void buy(){
+    init_file();
+    update_stock();
+
     string stock;
-    cout << "Which stock to buy? ";
-    cin >> stock;
-    transform(stock.begin(), stock.end(), stock.begin(), ::toupper);        //make uppercase
-    fetch_stock_data(stock);
+
+    do{
+        cout << "Which stock to buy? ";
+        cin >> stock;
+        transform(stock.begin(), stock.end(), stock.begin(), ::toupper);        //make uppercase
+    }
+    while(!fetch_stock_data(stock));
+
     cout << "Buying: " << myStockInfo.info << "\nAsk Price: " << myStockInfo.ask <<endl;
 
     init_balance();
@@ -114,7 +121,7 @@ void buy(){
     p.shares = shares;
     p.ticker = myStockInfo.info;
     p.buying_price = myStockInfo.ask;
-    p.selling_price = myStockInfo.bid;
+    p.selling_price = 0.00;
     p.current_price = myStockInfo.ask;
     p.current_value = 0.00;
     p.capital_gain = 0.00;
@@ -123,9 +130,17 @@ void buy(){
 
     target_stock_price = p.current_price;
     target_stock_shares_num = shares;
-    init_file();
+    
     add_to_portfolio();
     update_balance_file();
+    bool editing = edit();
+
+    if (editing){
+        cout <<editing;
+        edit_portfolio();  
+        add_to_portfolio();
+        update_balance_file();
+    }
 }
 
 void view_portfolio(){
@@ -181,14 +196,17 @@ void view_portfolio(){
         }
         
     }
-    update_stock();
-
-
+    for (auto &p: purchases){
+        cout <<p.nr<<"  "<<p.date<<"  "<<p.transaction_type<<"  "<<p.shares<<"  "<<p.ticker<<"  "<<p.buying_price<<"   "<<p.selling_price<<"   "<<p.current_price<<"   "<<p.current_value<<"   "<<p.capital_gain<<"   "<<p.percent_gain<<endl;
+    }
 }
 
 void edit_portfolio(){
+    view_portfolio();
     int max_stock_num = getCol();
     int choice = choose_stock(max_stock_num);
+    cout <<purchases[choice-1].nr<< " " << purchases[choice-1].date <<" " <<purchases[choice-1].transaction_type << " " << purchases[choice-1].shares << " "<< purchases[choice-1].ticker << " "<< purchases[choice-1].buying_price << " "<< purchases[choice-1].selling_price<< " "<<" "<<purchases[choice-1].current_price <<" " <<purchases[choice-1].percent_gain<<endl;
+
 
     init_balance();
     double avail_cash = read_balance();
@@ -196,10 +214,7 @@ void edit_portfolio(){
 
     if (choice <= purchases.size()){        
         Options userOpt = buy_or_sell();
-
-        purchases[choice-1].date = get_current_time();
-        double curr_price = purchases[choice-1].current_price;
-        double bid_price = purchases[choice-1].selling_price;
+        purchases[choice-1].date = myStockInfo.time;        //update time
 
         if (userOpt == Options::BUY){
             double avail_cash = read_balance();         
@@ -210,19 +225,15 @@ void edit_portfolio(){
 
             purchases[choice-1].shares += num;
             purchases[choice-1].transaction_type = "Buy";
-            purchases[choice-1].buying_price = curr_price;
+            purchases[choice-1].buying_price = myStockInfo.ask;         //buying price = asking price
             cout <<"Aquried "<<num<<" more shares. You now have: "<<purchases[choice-1].shares<<" shares of "<<purchases[choice-1].ticker<<" at $"<<purchases[choice-1].current_price<<" per share.\n";
             target_stock_shares_num = num;
         }
         else if (userOpt == Options::SELL){
-            int num = shares_num(purchases[choice-1].shares);
-            while (!validate_bounds(num, purchases[choice-1].shares)){
-                cout <<"You don't have enough shares!";
-                num = shares_num(purchases[choice-1].shares);
-            }
+            int num = shares_num(purchases[choice-1].shares);           //getting how many stocks to sell
             purchases[choice-1].shares -= num;
             purchases[choice-1].transaction_type = "Sell";
-            purchases[choice-1].selling_price = bid_price;
+            purchases[choice-1].selling_price = myStockInfo.bid;        //selling price = bidding price
             cout <<"Sold "<<num<<" shares. You now have: "<<purchases[choice-1].shares<<" shares of "<<purchases[choice-1].ticker<<" at $"<<purchases[choice-1].current_price<<" per share.\n";
             target_stock_shares_num = -num;    
     
@@ -230,11 +241,7 @@ void edit_portfolio(){
 
         }
     target_stock_price = purchases[choice-1].current_price;
-    
-    update_stock();
     clear_file();
     init_file();
-    add_to_portfolio();
-    update_balance_file();
 }
 

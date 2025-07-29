@@ -12,7 +12,7 @@ struct StockInfo;
 
 StockInfo myStockInfo;
 
-void fetch_stock_data(const string &input_symbol){
+bool fetch_stock_data(const string &input_symbol){
 std::string symbol = input_symbol;
     std::string url = "https://data.alpaca.markets/v2/stocks/" + symbol + "/quotes/latest";
 
@@ -24,9 +24,8 @@ std::string symbol = input_symbol;
         }
     );
 
-    std::cout << "Status Code: " << response.status_code << std::endl;
-    
     if (response.status_code == 200) {
+        cout <<response.text;
         nlohmann::json result = nlohmann::json::parse(response.text);
             myStockInfo.info = result["symbol"];
             myStockInfo.time = result["quote"]["t"];
@@ -35,5 +34,7 @@ std::string symbol = input_symbol;
             myStockInfo.bid_size = result["quote"]["bs"];
     } else {
         cerr << "Failed to fetch stock data." << endl;
+        return false;
     }
+    return true;
 }

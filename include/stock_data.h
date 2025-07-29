@@ -20,4 +20,4 @@ struct StockInfo{
 
 extern StockInfo myStockInfo;
 
-void fetch_stock_data(const std::string &input_symbol);
+bool fetch_stock_data(const std::string &input_symbol);

@@ -14,8 +14,6 @@ using nlohmann::json;
 int main(){
     string symbol;
     buy();
-    view_portfolio();
-    edit_portfolio();
     system("start portfolio.csv");
     system("start balance.csv");
     return 0;

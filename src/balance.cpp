@@ -21,7 +21,7 @@ tuple<double,double,double> CalucateBalance(){
     double total_profit=0;
     for (int i=0; i<purchases.size(); i++){
         buy_price += purchases[i].buying_price * purchases[i].shares;
-        curr_price += purchases[i].current_price * purchases[i].shares;
+        curr_price += purchases[i].selling_price * purchases[i].shares;
         total_profit += purchases[i].capital_gain;
     }
 
@@ -98,6 +98,7 @@ void write_to_balance(double &avail_balance, double &original_balance, double &c
 
 
 void update_balance_file(){
+    init_balance();
     double new_start_bal = read_balance();     //gets starting balance
     std::map new_balance = update_balance(new_start_bal);   //calculates new balance
 

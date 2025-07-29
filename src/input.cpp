@@ -60,14 +60,34 @@ int shares_num(int &max_shares_num){
         cout <<"How many shares? ";
         if (!validate_int(num)) continue;
 
-        if (num < 1 || num > max_shares_num+1){
+        if (num < 1 || num > max_shares_num){
             cout <<"Invalid index! "<<endl;
             continue;
         }
         break;   
     }
 
-    return num;
-    
+    return num;   
 }
+
+bool edit(){
+    int num;
+
+    while (true){
+        cout << "Edit portfolio? 1. Yes   2. No: ";
+        if (!validate_int(num)) continue;
+
+        if (num ==1){
+            return true;
+        }else if (num ==2){
+            return false;
+        }else{
+            cout <<"Invallid input! Enter 1 or 2: ";
+            continue;
+        }
+        break;
+    }
+}
+
+
 
