@@ -1,0 +1,3 @@
+C:/Users/annie/Documents/CppProjects/StocksSim/build/CMakeFiles/StocksSim.dir
+C:/Users/annie/Documents/CppProjects/StocksSim/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/annie/Documents/CppProjects/StocksSim/build/CMakeFiles/ZERO_CHECK.dir

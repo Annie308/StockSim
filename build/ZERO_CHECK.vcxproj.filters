@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\annie\Documents\CppProjects\StocksSim\build\CMakeFiles\169c012ccaf8327f7ab36561da712c11\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{7A4BB24E-1315-3601-B666-E6FA69FACDE0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,5 @@
+Nr,Date,Transaction Type,Nr of Shares,Ticker,Buying Price Per Share,Selling Price Per Share,Current Price Per Share,Current Value,Capital Gain,Percent Gain
+1,2025-07-29 11:36,Sell,1,HIMS,60.08,58.50,60.43,60.43,0.35,0.01
+2,2025-07-29T18:36:16.469926164Z,Buy,200,HIMS,61.12,60.12,60.43,12086.00,-138.00,-0.01
+3,2025-07-29 11:49,Sell,1,AAPL,212.14,212.10,212.10,212.10,-0.04,-0.00
+4,2025-07-29T18:49:01.245399708Z,Buy,30,AAPL,212.08,212.03,212.10,6363.00,0.60,0.00
