@@ -25,7 +25,6 @@ std::string symbol = input_symbol;
     );
 
     if (response.status_code == 200) {
-        cout <<response.text;
         nlohmann::json result = nlohmann::json::parse(response.text);
             myStockInfo.info = result["symbol"];
             myStockInfo.time = result["quote"]["t"];

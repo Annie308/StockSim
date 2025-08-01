@@ -12,19 +12,21 @@ struct StockPurchase {
     std::string ticker;
     double buying_price;
     double selling_price;
-    double current_price;
+    double current_bid;
+    double current_ask;
     double current_value;
     double capital_gain;
     double percent_gain;
 };
 
-const int HEADER_COUNT = 11;
+const int HEADER_COUNT = 12;
 
 extern std::vector<StockPurchase> purchases;
 extern int target_stock_shares_num;
 extern double target_stock_price;
 
 void init_file();
+void init_portfolio();
 void clear_file();
 void add_to_portfolio();
 int getCol();

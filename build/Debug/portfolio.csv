@@ -1,2 +1,4 @@
-Nr,Date,Transaction Type,Shares,Ticker,Buying Price,Selling Price,Current Price,Current Value,Cap. Gain,Per. Gain
-1,2025-07-29T19:59:58.961420447Z,Buy,70,AAPL,214.30,0.00,214.30,0.00,0.00,0.00
+Nr,Date,Transaction Type,Shares,Ticker,Buying Price,Selling Price,Bid Price,Ask Price,Current Value,Cap. Gain,Per. Gain
+1,2025-07-31T19:59:59.997646734Z,Buy,100,AAPL,211.00,0.00,180.00,211.00,0.00,0.00,0.00
+2,2025-07-31T20:00:00.091860159Z,Buy,100,GM,53.37,0.00,53.31,53.37,0.00,0.00,0.00
+3,2025-07-31T20:00:00.091860159Z,Sell,100,GM,53.37,53.31,53.31,53.37,5331.00,-6.00,-0.00

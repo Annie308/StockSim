@@ -16,6 +16,16 @@ std::optional<Options> int_to_options(int input){
     }
 }
 
+std::optional<Edit> int_to_edit(int input){
+    if (input == 1){
+        return Edit::BUY;
+    }else if (input == 2){
+        return Edit::EDIT;
+    }else{
+        return nullopt;
+    }
+}
+
 Options buy_or_sell(){
     int input;
     std::optional<Options> inputOpt;
@@ -35,6 +45,25 @@ Options buy_or_sell(){
 
     return *inputOpt;
 }
+
+Edit edit_or_buy(){
+    int num;
+    std::optional<Edit> userOpt;
+
+   do{
+        cout << "1. Buy a new stock\n2. Edit an existing stock\n";
+        if (!validate_int(num)) continue;
+
+        userOpt = int_to_edit(num);                //convert to the enum
+
+        if (!userOpt.has_value())
+            cout <<"Invalid input! Enter 1 or 2: ";
+            continue;
+    } while (!userOpt.has_value());
+    
+    return *userOpt;
+}
+
 
 int choose_stock(int &max_stock_num){
     int choice;
@@ -70,24 +99,6 @@ int shares_num(int &max_shares_num){
     return num;   
 }
 
-bool edit(){
-    int num;
-
-    while (true){
-        cout << "Edit portfolio? 1. Yes   2. No: ";
-        if (!validate_int(num)) continue;
-
-        if (num ==1){
-            return true;
-        }else if (num ==2){
-            return false;
-        }else{
-            cout <<"Invallid input! Enter 1 or 2: ";
-            continue;
-        }
-        break;
-    }
-}
 
 
 

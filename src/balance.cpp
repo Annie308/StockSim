@@ -1,4 +1,5 @@
 #include "portfolio.h"
+#include "utils.h"
 #include <map>
 #include "balance.h"
 #include <iostream>
@@ -42,7 +43,7 @@ void init_balance(){
     std::ifstream infile(file_name);
     if (!infile.is_open() || infile.peek() == std::ifstream::traits_type::eof()){
         std::ofstream outfile(file_name);
-        outfile <<"Cash availible,Original Portfolio Balance,Current Portfolio Balance,Total portfolio profit\n";                                                               //Writing header
+        outfile <<"Cash availible,Original Portfolio Balance,Current Portfolio Balance,Total portfolio profit,Date\n";                                                               //Writing header
         outfile.close();
     }
     infile.close();
@@ -63,7 +64,7 @@ double read_balance(){
         string str_balance;
         string str_profit;
         if (remove_header){
-            for (int i=0; i<4; i++){   
+            for (int i=0; i<5; i++){   
                 string token; 
                 getline(ss, token, ',');        //remove header
             }
@@ -81,9 +82,7 @@ double read_balance(){
 }
 
 
-void write_to_balance(double &avail_balance, double &original_balance, double &current_balance, double &total_profit){
-    clear_balance();
-    init_balance();
+void write_to_balance(double &avail_balance, double &original_balance, double &current_balance, double &total_profit, string &date){
     std::ofstream file(file_name, ios::app);
     if (!file.is_open()){
         cerr << "Cannot open file to update."<<endl;
@@ -92,7 +91,8 @@ void write_to_balance(double &avail_balance, double &original_balance, double &c
     file << avail_balance<< ","
         << original_balance<<","
         << current_balance<<","
-        <<total_profit<<"\n";
+        <<total_profit<<","
+        <<date<<"\n";
     file.close();
 }
 
@@ -106,7 +106,8 @@ void update_balance_file(){
     double original_balance = new_balance["Original portfolio balance"];
     double current_balance = new_balance["Current portfolio balance"];
     double total_profit = new_balance["Total portfolio profit"];
+    string date = get_current_time(); //gets current date
 
-    write_to_balance(avail_balance, original_balance, current_balance, total_profit);
+    write_to_balance(avail_balance, original_balance, current_balance, total_profit, date);
 }
 

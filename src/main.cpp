@@ -12,8 +12,11 @@ using namespace std;
 using nlohmann::json;
 
 int main(){
-    string symbol;
-    buy();
+    init_portfolio();
+    clear_file();
+    init_file();
+    add_to_portfolio();
+    update_balance_file();
     system("start portfolio.csv");
     system("start balance.csv");
     return 0;
